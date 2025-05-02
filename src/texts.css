@@ -1,0 +1,63 @@
+.MacroHeading {
+    font-family: var(--secondary-font);
+    font-weight: var(--medium);
+    font-size: var(--macro-heading);
+    color: var(--white);
+    line-height: 90px;
+    display: flex;
+    text-align: start;
+}
+
+.HeadingWhite {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--heading);
+    color: var(--white);
+    line-height: 90px;
+    display: flex;
+    text-align: start;
+}
+
+.MiniHeadingWhite {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--subheadingBig);
+    background: var(--white-text-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    line-height: 90px;
+    display: flex;
+    text-align: start;
+}
+
+.HeadingRed {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--heading);
+    background: var(--red-main-gradient); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 90px;
+    text-align: start;
+
+
+}
+
+.ParagraphWhite {
+    font-family: var(--main-font);
+    font-weight: var(--regular);
+    font-size: var(--paragraph);
+    color: var(--gray);  
+    line-height: 27px;
+    text-align: start;
+}
+.ParagraphBlack {
+    font-family: var(--main-font);
+    font-weight: var(--regular);
+    font-size: var(--paragraph);
+    color: var(--dark-text);  
+    line-height: 27px;
+
+}

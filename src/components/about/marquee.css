@@ -1,0 +1,37 @@
+.logoMarqueeWrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+    background: transparent;
+    margin-bottom: 40px;
+  }
+  
+  .logoMarqueeTrack {
+    display: flex;
+    gap: 80px;
+    animation: marqueeScroll 25s linear infinite;
+    width: max-content;
+  }
+  
+  .logoMarqueeItem {
+    height: 20px;
+    flex-shrink: 0;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+  
+  .logoMarqueeItem:hover {
+    opacity: 1;
+    filter: none;
+  }
+  
+  @keyframes marqueeScroll {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
