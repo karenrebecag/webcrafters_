@@ -34,11 +34,11 @@ export default function BlobsBackground({ className = '', children }: BlobsBackg
     const container = containerRef.current;
     if (!container) return;
 
+    const parentRect = container.getBoundingClientRect();
     const blobEls = Array.from(container.querySelectorAll('.blob')) as HTMLElement[];
 
     blobEls.forEach((blob) => {
       const rect = blob.getBoundingClientRect();
-      const parentRect = container.getBoundingClientRect();
       blobsData.push({
         el: blob,
         baseX: rect.left - parentRect.left,
@@ -49,14 +49,35 @@ export default function BlobsBackground({ className = '', children }: BlobsBackg
         offsetY: 0,
         scale: 1,
       });
+
+      blob.style.willChange = 'transform';
     });
 
     // Cursor Blob
     const cursorBlob = document.createElement('div');
     cursorBlob.className = 'blob cursorBlob';
+    Object.assign(cursorBlob.style, {
+      width: '300px',
+      height: '300px',
+      borderRadius: '50%',
+      background: '#ff5f8a',
+      filter: 'blur(100px)',
+      position: 'absolute',
+      pointerEvents: 'none',
+      mixBlendMode: 'screen',
+      opacity: '0.2',
+      transform: 'translate3d(-50%, -50%, 0)',
+      willChange: 'transform',
+      zIndex: '10',
+    });
     container.appendChild(cursorBlob);
 
+    let lastMove = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastMove < 16) return; // throttle to ~60fps
+      lastMove = now;
       const rect = container.getBoundingClientRect();
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
@@ -68,8 +89,7 @@ export default function BlobsBackground({ className = '', children }: BlobsBackg
       smoothedX += (mouseX - smoothedX) * 0.08;
       smoothedY += (mouseY - smoothedY) * 0.08;
 
-      cursorBlob.style.left = `${smoothedX}px`;
-      cursorBlob.style.top = `${smoothedY}px`;
+      cursorBlob.style.transform = `translate3d(${smoothedX}px, ${smoothedY}px, 0)`;
 
       blobsData.forEach((blob) => {
         const blobCenterX = blob.baseX + 250;
@@ -93,25 +113,11 @@ export default function BlobsBackground({ className = '', children }: BlobsBackg
         blob.curX += (blob.offsetX - blob.curX) * 0.104;
         blob.curY += (blob.offsetY - blob.curY) * 0.104;
 
-        blob.el.style.transform = `translate(${blob.curX}px, ${blob.curY}px) scale(${blob.scale})`;
+        blob.el.style.transform = `translate3d(${blob.curX}px, ${blob.curY}px, 0) scale(${blob.scale})`;
       });
 
       requestAnimationFrame(animate);
     };
-
-    Object.assign(cursorBlob.style, {
-      width: '300px',
-      height: '300px',
-      borderRadius: '50%',
-      background: '#ff5f8a',
-      filter: 'blur(100px)',
-      position: 'absolute',
-      pointerEvents: 'none',
-      mixBlendMode: 'screen',
-      opacity: '0.2',
-      transform: 'translate(-50%, -50%)',
-      zIndex: '10',
-    });
 
     animate();
 

@@ -8,6 +8,19 @@
     padding: 50px 0px;
 }
 
+.ColTitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.RedDot{
+    color: red;
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
 .lightBackground {
     background-image: 
       url('/src/assets/backgrounds/lines.png'),
@@ -48,6 +61,9 @@
     }
     .paragraph {
         font-size: var(--paragraph);
+    }
+    .small-heading{
+        font-size: var(--small-heading);
     }
 
     /* Moble Headings */ 

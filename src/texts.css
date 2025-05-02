@@ -8,6 +8,8 @@
     text-align: start;
 }
 
+
+
 .HeadingWhite {
     font-family: var(--main-font);
     font-weight: var(--medium);
@@ -17,6 +19,24 @@
     display: flex;
     text-align: start;
 }
+.HeadingBlack {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--heading);
+    color: var(--black);
+    display: flex;
+    text-align: start;
+}
+
+.SubheadingBlack {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--subheading);
+    color: var(--black);
+    display: flex;
+    text-align: start;
+}
+
 
 .MiniHeadingWhite {
     font-family: var(--main-font);
@@ -28,6 +48,15 @@
     background-clip: text;
     color: transparent;
     line-height: 90px;
+    display: flex;
+    text-align: start;
+}
+
+.MiniHeadingBlack {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--small-heading);
+    color: var(--black);
     display: flex;
     text-align: start;
 }
@@ -60,4 +89,22 @@
     color: var(--dark-text);  
     line-height: 27px;
 
+}
+
+.MiniText{
+    font-family: var(--main-font);
+    font-weight: var(--regular);
+    font-size: var(--headingxxs);
+    background: var(--white-text-gradient); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 27px;
+}
+
+.MiniTextBlack{
+    font-family: var(--main-font);
+    font-weight: var(--regular);
+    font-size: var(--headingxxs);
+    color: var(--black);  
+    line-height: 27px;
 }

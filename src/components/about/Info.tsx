@@ -2,6 +2,7 @@ import '../../variables.css';
 import '../../texts.css';
 import './info.css'
 import WhiteButton from '../buttons/WhiteButton';
+import ChromeButton from '../buttons/ChromeButton';
 import Marquee from './Marquee';
 import Numbers from './Numbers';
 
@@ -14,6 +15,10 @@ export default function AboutIntro() {
 
         <div className="MainInfoContainer">
           <div className='TextSubContainer'>
+            <div className='ColTitle'>
+                <span className='RedDot'>• </span>
+                <span className="MiniText">About Us</span>
+              </div>
               <span className="HeadingWhite">Crafting the future, </span>
               <span className="HeadingRed">one pixel at time.</span>
           </div>
@@ -29,8 +34,11 @@ export default function AboutIntro() {
           </div>
         </div>
 
-        <Marquee />
-        <Numbers />
+          <Marquee />
+          <div className='Center'>
+            <ChromeButton iconSrc="/assets/icons/ArrowDown.svg" />
+          </div>
+          <Numbers />
         </div>
       </BlobsBackground>
   );

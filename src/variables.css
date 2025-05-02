@@ -21,6 +21,8 @@
         /* Moble Headings */ 
         --heading-mobile: 42px;  
 
+        /* Small Headings */ 
+        --small-heading: 28px;    
         /* Ultra Small Viewports =<360px */ 
         --heading-xxs: 24px;
 
