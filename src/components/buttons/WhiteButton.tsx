@@ -9,11 +9,7 @@ export default function WhiteButton({ label, onClick }: WhiteButtonProps) {
   return (
     <button className="WhiteButton" onClick={onClick}>
       <span>{label}</span>
-      <img
-        src="/assets/icons/ArrowUp.svg"
-        alt="Arrow Icon"
-        className="WhiteButtonIcon"
-      />
+      <img src="/assets/icons/ArrowUp.svg" alt="Arrow Icon" />
     </button>
   );
 }

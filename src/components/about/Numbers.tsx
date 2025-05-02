@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import './Numbers.css';
 import WhiteButton from '../buttons/WhiteButton';
 import CountUpDigit from './CountUpDigit'; 
@@ -7,13 +8,17 @@ import CountUpDigit from './CountUpDigit';
 export default function Numbers() {
   return (
     <section className="NumbersContainer">
-        <div className="GridOverlay" />
-        <div className="TopLayer" />
+      <div className="GridOverlay" />
+      <div className="TopLayer" />
+      
       <div className="NumbersBadge">
-        <img
+        <Image
           src="/assets/icons/Aterisk.png"
           alt="Asterisk"
           className="BadgeIcon"
+          width={32}
+          height={32}
+          priority
         />
         <div className="MacroHeading">
           <CountUpDigit target={24000} />
@@ -22,10 +27,10 @@ export default function Numbers() {
       </div>
 
       <div className="NumbersContent">
-        <h2 className="HeadingWhite">Reimagining the world's narrative</h2>
+        <h2 className="HeadingWhite">Reimagining the world&rsquo;s narrative</h2>
         <p className="ParagraphWhite">
           Revolutionize your content game with our AI-powered SEO and copywriting tools!
-          Say goodbye to writer’s block and hello to high-quality content that ranks.
+          Say goodbye to writer&rsquo;s block and hello to high-quality content that ranks.
         </p>
 
         <div className="StatsRow">

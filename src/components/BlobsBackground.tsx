@@ -8,6 +8,17 @@ interface BlobsBackgroundProps {
   children?: ReactNode;
 }
 
+interface BlobData {
+  el: HTMLElement;
+  baseX: number;
+  baseY: number;
+  curX: number;
+  curY: number;
+  offsetX: number;
+  offsetY: number;
+  scale: number;
+}
+
 export default function BlobsBackground({ className = '', children }: BlobsBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +26,7 @@ export default function BlobsBackground({ className = '', children }: BlobsBackg
     const maxInfluence = 350;
     const strength = 60;
     const scaleFactor = 0.15;
-    const blobsData: any[] = [];
+    const blobsData: BlobData[] = [];
 
     let mouseX = 0, mouseY = 0;
     let smoothedX = 0, smoothedY = 0;
