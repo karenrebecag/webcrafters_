@@ -1,4 +1,8 @@
 /* Global Backgrounds */
+body {
+    background-color: #20072B;
+}
+
 * {
     margin: 0;
     padding: 0;

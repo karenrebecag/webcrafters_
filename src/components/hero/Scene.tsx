@@ -2,262 +2,217 @@
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { Reflector } from 'three/examples/jsm/objects/Reflector';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
+import { ObjectLoader } from 'three';
 
-export default function BannerScene() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const bloomParams = {
+  strength: 0.3,
+  radius: 0.55,
+  threshold: 0.15
+};
+
+const Scene: React.FC = () => {
+  const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!mountRef.current) return;
+    const width = mountRef.current.clientWidth;
+    const height = mountRef.current.clientHeight;
 
-    const canvas = canvasRef.current;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(devicePixelRatio);
+    renderer.setSize(width, height);
     renderer.physicallyCorrectLights = true;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
-    renderer.setClearColor(0x090318);
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.toneMappingExposure = 0.9;
+    mountRef.current.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const world = new THREE.Group();
-    scene.add(world);
+    scene.background = new THREE.Color('#22082e');
+    scene.fog = new THREE.Fog('#2a0d3a', 8, 16);
 
-    const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(4.5, 4, 4.5);
+    const camera = new THREE.PerspectiveCamera(18, width / height, 0.1, 20);
+    camera.position.set(6.5, 4, 5.5);
     camera.lookAt(0, 0.8, 0);
     scene.add(camera);
 
+    const sky = new THREE.Mesh(
+      new THREE.SphereGeometry(20, 32, 32),
+      new THREE.MeshBasicMaterial({ color: '#2f0030', side: THREE.BackSide, depthWrite: false })
+    );
+    scene.add(sky);
+
+    const world = new THREE.Group();
+    world.scale.set(0.7, 0.7, 0.7);
+    world.position.y = 0.3;
+    scene.add(world);
+
     const tl = new THREE.TextureLoader();
-    const piedraTex = tl.load('https://static.wixstatic.com/media/bc0394_93327c8e32c54750b442d3d293793351~mv2.jpg', t => {
+    const stoneTex = tl.load('/assets/backgrounds/stoneTexture.jpg', t => {
       t.wrapS = t.wrapT = THREE.RepeatWrapping;
       t.repeat.set(6, 6);
       t.encoding = THREE.SRGBColorSpace;
     });
-    const panelTex = tl.load('https://static.wixstatic.com/media/bc0394_54276c85c7914340a6af3ad69b746bfb~mv2.png', t => {
-      t.encoding = THREE.SRGBColorSpace;
+
+    const mirrorGeo = new THREE.CircleGeometry(6, 20);
+    const reflector = new Reflector(mirrorGeo, {
+      textureWidth: width * devicePixelRatio,
+      textureHeight: height * devicePixelRatio,
+      color: 0x111111,
+      clipBias: 0.001
     });
+    reflector.rotation.x = -Math.PI / 2;
+    world.add(reflector);
 
-    const suelo = new THREE.Mesh(
-      new THREE.CircleGeometry(6, 128),
-      new THREE.MeshPhysicalMaterial({
-        map: piedraTex,
-        clearcoat: 1,
-        clearcoatRoughness: 0.05,
-        roughness: 0.45,
-        metalness: 0.9,
-        envMapIntensity: 5,
-        emissive: 0x122040,
-        emissiveMap: piedraTex,
-        emissiveIntensity: 1,
-      })
-    );
-    suelo.rotation.x = -Math.PI / 2;
-    world.add(suelo);
-
-    const portal = new THREE.Group();
-    world.add(portal);
-
-    const W = 1, H = 1.3, DEPTH = 0.1, THICK = 0.06, shellT = THICK, coreT = THICK * 0.11;
-
-    const neonMat = new THREE.ShaderMaterial({
-      uniforms: {
-        colorA: { value: new THREE.Color('#edb96a') },
-        colorB: { value: new THREE.Color('#f6dcb2') },
-        intensity: { value: 0.0 },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 colorA;
-        uniform vec3 colorB;
-        uniform float intensity;
-        varying vec2 vUv;
-        void main() {
-          float glow = smoothstep(0.0, 1.0, abs(vUv.x - 0.5) * 2.0);
-          vec3 color = mix(colorB, colorA, glow);
-          gl_FragColor = vec4(color * intensity, 1.0);
-        }
-      `,
-      polygonOffset: true,
-      polygonOffsetFactor: -1,
-      polygonOffsetUnits: -4,
-    });
-
-    const darkMat = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      emissive: 0xc65454,
-      emissiveIntensity: 0,
-    });
-
-    const glowMat = new THREE.MeshBasicMaterial({
-      color: '#b94d52',
+    const stoneMat = new THREE.MeshPhysicalMaterial({
+      map: stoneTex,
+      clearcoat: 1,
+      clearcoatRoughness: 0.02,
+      roughness: 0.25,
+      metalness: 0.8,
       transparent: true,
-      opacity: 0.2,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.9,
       depthWrite: false,
+      emissive: new THREE.Color('#2f0030'),
+      emissiveIntensity: 0.4
+    });
+    const stoneFloor = new THREE.Mesh(mirrorGeo, stoneMat);
+    stoneFloor.rotation.x = -Math.PI / 2;
+    stoneFloor.position.y = 0.001;
+    stoneFloor.renderOrder = 1;
+    world.add(stoneFloor);
+
+    let portalModel: THREE.Object3D | null = null;
+    const loader = new ObjectLoader();
+    loader.load('/assets/3DAssets/Portal.json', (loadedObject) => {
+      portalModel = loadedObject;
+      loadedObject.scale.set(1.4 * 0.7, 1 * 0.7, 1 * 0.7);
+      loadedObject.position.y = 0.4;
+
+      loadedObject.rotation.set(
+        Math.PI * -0.5, // X → Inclina el modelo hacia adelante o atrás (por ejemplo, 45°)
+        Math.PI,        // Y → Gira el modelo horizontalmente (180° para mirar hacia atrás)
+        0               // Z → Rota en espiral como una moneda girando (0 = sin rotación)
+      );
+    
+      world.add(loadedObject);
+
+      const pointLight = new THREE.PointLight(0x96303F, 4, 10, 2);
+      loadedObject.add(pointLight);
     });
 
-    const glowScale = 1.02;
-    const glowOffset = 0.003;
-    const glowThickness = coreT * 0.5;
-
-    function bar(geo: THREE.BufferGeometry, x: number, y: number, mat: THREE.Material) {
-      const m = new THREE.Mesh(geo, mat);
-      m.position.set(x, y, 0);
-      portal.add(m);
-    }
-
-    bar(new THREE.BoxGeometry(shellT, H, DEPTH), -(W - shellT) / 2, 0, darkMat);
-    bar(new THREE.BoxGeometry(shellT, H, DEPTH), (W - shellT) / 2, 0, darkMat);
-    bar(new THREE.BoxGeometry(W, shellT, DEPTH), 0, (H - shellT) / 2, darkMat);
-    bar(new THREE.BoxGeometry(W, shellT, DEPTH), 0, -(H - shellT) / 2, darkMat);
-
-    bar(new THREE.BoxGeometry(coreT, H * 0.97, DEPTH + 0.002), -(W - coreT) / 2, 0, neonMat);
-    bar(new THREE.BoxGeometry(coreT, H * 0.97, DEPTH + 0.002), (W - coreT) / 2, 0, neonMat);
-    bar(new THREE.BoxGeometry(W * 0.97, coreT, DEPTH + 0.002), 0, (H - coreT) / 2, neonMat);
-    bar(new THREE.BoxGeometry(W * 0.97, coreT, DEPTH + 0.002), 0, -(H - coreT) / 2, neonMat);
-
-    function glowFrame(geo: THREE.BufferGeometry, x: number, y: number) {
-      const m = new THREE.Mesh(geo, glowMat);
-      m.position.set(x, y, DEPTH / 2 + glowOffset);
-      m.scale.set(glowScale, glowScale, 1);
-      portal.add(m);
-    }
-
-    glowFrame(new THREE.BoxGeometry(glowThickness, H * 0.96, 0.001), -(W - glowThickness) / 2, 0);
-    glowFrame(new THREE.BoxGeometry(glowThickness, H * 0.96, 0.001), (W - glowThickness) / 2, 0);
-    glowFrame(new THREE.BoxGeometry(W * 0.96, glowThickness, 0.001), 0, (H - glowThickness) / 2);
-    glowFrame(new THREE.BoxGeometry(W * 0.96, glowThickness, 0.001), 0, -(H - glowThickness) / 2);
-
-    const panelMat = new THREE.ShaderMaterial({
-      uniforms: {
-        uTexture: { value: panelTex },
-        uTime: { value: 0 }
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main(){
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D uTexture;
-        uniform float uTime;
-        varying vec2 vUv;
-        void main(){
-          vec4 tex = texture2D(uTexture, vUv);
-          float blur = smoothstep(0.4, 1.0, length(vUv - 0.9));
-          vec3 blurred = mix(tex.rgb, vec3(0.1,0.05,0.1), blur*0.7);
-          float vignette = smoothstep(0.9, 0.5, length(vUv - 0.5));
-          blurred *= mix(1.0, 0.73, vignette);
-          gl_FragColor = vec4(blurred, tex.a);
-        }
-      `,
-      transparent: true,
-      depthWrite: false
-    });
-
-    const panel = new THREE.Mesh(new THREE.PlaneGeometry(W - THICK * 2, H - THICK * 2), panelMat);
-    panel.position.z = DEPTH / 2 + 0.001;
-    panel.renderOrder = 1;
-    portal.add(panel);
-
-    portal.position.y = H / 3 + 0.05;
-    portal.scale.y = 0;
-
-    const portalLight = new THREE.PointLight(0xb7484c, 0, 0, 1);
-    portalLight.position.set(0, 0, 0);
-    portal.add(portalLight);
-
-    const particleCount = 40;
-    const radiusBase = 0.6;
-    const particleGeo = new THREE.BufferGeometry();
+    // Particles
+    const particleCount = 200;
+    const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
+    const angles: number[] = [];
+    const radii: number[] = [];
 
     for (let i = 0; i < particleCount; i++) {
-      const angle = Math.random() * 2 * Math.PI;
-      const radius = radiusBase + Math.random() * 0.5;
-      const height = Math.random() * H;
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 1.5 + Math.random() * 1.5;
+      const y = Math.random() * 1.2;
+
       positions[i * 3 + 0] = Math.cos(angle) * radius;
-      positions[i * 3 + 1] = height;
+      positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = Math.sin(angle) * radius;
+
+      angles.push(angle);
+      radii.push(radius);
     }
 
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    const particleMat = new THREE.PointsMaterial({
-      color: 0xf0c66c,
-      size: 0.05,
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0xffc0cb,
+      size: 0.02,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.35,
-      depthWrite: false
+      opacity: 0.3
     });
-    const particles = new THREE.Points(particleGeo, particleMat);
+
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
     world.add(particles);
 
-    const targetEuler = new THREE.Euler(0, 0, 0, 'YXZ');
-    const targetQuat = new THREE.Quaternion();
-    const maxRotY = 0.05, maxRotX = 0.01;
+    scene.add(new THREE.AmbientLight(0x404040, 0.5));
 
-    canvas.addEventListener('pointermove', e => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      targetEuler.set(-y * maxRotX, x * maxRotY, 0);
-      targetQuat.setFromEuler(targetEuler);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(width, height),
+      bloomParams.strength,
+      bloomParams.radius,
+      bloomParams.threshold
+    );
+    composer.addPass(bloomPass);
+    composer.addPass(new OutputPass());
+
+    const tgtEuler = new THREE.Euler();
+    const tgtQuat = new THREE.Quaternion();
+    renderer.domElement.addEventListener('pointermove', e => {
+      const x = (e.clientX / width - 0.5) * 2;
+      const y = (e.clientY / height - 0.5) * 2;
+      tgtEuler.set(-y * 0.01, x * 0.05, 0);
+      tgtQuat.setFromEuler(tgtEuler);
+    });
+    renderer.domElement.addEventListener('pointerleave', () => {
+      tgtEuler.set(0, 0, 0);
+      tgtQuat.setFromEuler(tgtEuler);
     });
 
-    canvas.addEventListener('pointerleave', () => {
-      targetEuler.set(0, 0, 0);
-      targetQuat.setFromEuler(targetEuler);
-    });
-
-    const t0 = performance.now(), intro = 2000;
-    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    function animate() {
-      requestAnimationFrame(animate);
+    const t0 = performance.now();
+    let frameId = 0;
+    const animate = () => {
       const time = performance.now() * 0.001;
-      const k = Math.min((performance.now() - t0) / intro, 1);
-      const e = ease(k);
+      const t = (performance.now() - t0) * 0.001;
 
-      portal.scale.y = e;
-      portalLight.intensity = 5 * e;
-      darkMat.emissiveIntensity = 2 * e;
+      if (portalModel) {
+        portalModel.position.y = 0.4 + Math.sin(t * 2.5) * 0.08;
+      }
 
-      portal.position.y = H / 2 + 0.05 + Math.sin(time * 1.5) * 0.05;
-      const pulse = 2.5 + Math.sin(time * 2) * 0.25;
-      neonMat.uniforms.intensity.value = e * pulse;
+      const pos = particleGeometry.attributes.position as THREE.BufferAttribute;
+      for (let i = 0; i < particleCount; i++) {
+        angles[i] += 0.0005;
+        pos.setX(i, Math.cos(angles[i]) * radii[i]);
+        pos.setZ(i, Math.sin(angles[i]) * radii[i]);
+      }
+      pos.needsUpdate = true;
 
-      world.quaternion.slerp(targetQuat, 0.1);
-      renderer.render(scene, camera);
-    }
+      world.quaternion.slerp(tgtQuat, 0.1);
+      composer.render();
+      frameId = requestAnimationFrame(animate);
+    };
     animate();
 
     const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const w = mountRef.current?.clientWidth ?? 0;
+      const h = mountRef.current?.clientHeight ?? 0;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(w, h);
+      composer.setSize(w, h);
     };
     window.addEventListener('resize', onResize);
 
     return () => {
+      cancelAnimationFrame(frameId);
       window.removeEventListener('resize', onResize);
+      mountRef.current?.removeChild(renderer.domElement);
       renderer.dispose();
     };
   }, []);
 
   return (
-      <canvas
-        ref={canvasRef}
-        id="bannerCanvas"
-        style={{ display: 'block', width: '100vw', height: '50vh', cursor: 'pointer' }}
-      />
+    <div
+      ref={mountRef}
+      style={{ width: '100vw', height: '70vh', overflow: 'hidden', cursor: 'pointer' }}
+    />
   );
-}
+};
+
+export default Scene;

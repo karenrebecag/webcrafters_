@@ -27,6 +27,7 @@
         --heading-xxs: 24px;
 
         /* Font Weights */ 
+        --bold: 700;
         --semibold: 600;
         --medium: 500;
         --regular: 300;
@@ -48,6 +49,11 @@
 
     /* === Effects === */
     --glow-effect: 0px 4px 54.4px rgba(255, 254, 205, 0.8);
+    --glow-effect-text: 
+    0 0 5px rgba(255, 254, 205, 0.4),
+    0 0 10px rgba(255, 254, 205, 0.5),
+    0 0 20px rgba(255, 254, 205, 0.6),
+    0 0 54.4px rgba(255, 254, 205, 0.8);
     --button-shadow: 0px 4px 26px rgba(0, 0, 0, 0.23);
 
     /* === Static Color Background === */
