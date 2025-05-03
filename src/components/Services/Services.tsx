@@ -46,40 +46,39 @@ const services = [
 export default function ServicesSection() {
   return (
     <section className={styles.servicesSection}>
-
-    <div className='TitleSection'>
-        <div className='ColTitle'>
-            <span className='RedDot'>• </span>
-            <span className="MiniTextBlack">Services</span>
+        <div className={styles.TitleSection}>
+            <div className='ColTitle'>
+                <span className='RedDot'>• </span>
+                <span className="MiniTextBlack">Services</span>
+            </div>
+            <h4 className="HeadingBlack">Where Every Frame 
+            Speaks, Every Detail Inspires</h4>
         </div>
-        <h4 className="HeadingBlack">Where Every Frame 
-        Speaks, Every Detail Inspires</h4>
-      </div>
-      <div className={styles.grid}>
-        {services.map((service, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.icon}>
-              <Image className='animatedIcon'
-                src={service.icon}
-                alt={service.title}
-                width={38}
-                height={38}
-                priority
-              />
-            </div>
-            <h3 className="MiniHeadingBlack">{service.title}</h3>
-            <p className="ParagraphBlack">{service.description}</p>
-            <div className={styles.arrow}>
-              <Image
-                src="/assets/icons/ArrowUp.svg"
-                alt="Arrow Icon"
-                width={24}
-                height={24}
-              />
-            </div>
+          <div className={styles.grid}>
+            {services.map((service, index) => (
+              <div key={index} className={styles.card}>
+                <div className={styles.icon}>
+                  <Image className='animatedIcon'
+                    src={service.icon}
+                    alt={service.title}
+                    width={38}
+                    height={38}
+                    priority
+                  />
+                </div>
+                <h3 className="MiniHeadingBlack">{service.title}</h3>
+                <p className="ParagraphBlack">{service.description}</p>
+                <div className={styles.arrow}>
+                  <Image
+                    src="/assets/icons/ArrowUp.svg"
+                    alt="Arrow Icon"
+                    width={24}
+                    height={24}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
     </section>
   );
 }
