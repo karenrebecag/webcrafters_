@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import Image from 'next/image';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -32,7 +33,6 @@ const Scene: React.FC = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(width, height);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    (renderer as THREE.WebGLRenderer).physicallyCorrectLights = true;
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = 0.9;
     mount.appendChild(renderer.domElement);
@@ -58,7 +58,7 @@ const Scene: React.FC = () => {
     scene.add(world);
 
     const tl = new THREE.TextureLoader();
-    const stoneTex = tl.load('/assets/backgrounds/stoneTexture.jpg', (t) => {
+    const stoneTex = tl.load('/assets/backgrounds/stoneTexture.jpg', (t: THREE.Texture) => {
       t.wrapS = t.wrapT = THREE.RepeatWrapping;
       t.repeat.set(6, 6);
       t.colorSpace = THREE.SRGBColorSpace;
@@ -237,22 +237,14 @@ const Scene: React.FC = () => {
 
       <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
 
-      <img
-        src="/assets/backgrounds/NoiseOverlay.png"
-        alt="Noise Overlay"
-        className="NoiseOverlay"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 5,
-          objectFit: 'cover',
-          opacity: 0.1
-        }}
-      />
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 5, pointerEvents: 'none' }}>
+        <Image
+          src="/assets/backgrounds/NoiseOverlay.png"
+          alt="Noise Overlay"
+          fill
+          style={{ objectFit: 'cover', opacity: 0.02 }}
+        />
+      </div>
     </div>
   );
 };
