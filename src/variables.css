@@ -13,10 +13,11 @@
         --main-font: "Poppins", sans-serif;
         --secondary-font: "Clash Display", sans-serif;
         --macro-heading: 92px;
-        --heading: 60px;   
+        --heading: 48px;   
         --subheadingBig: 40px;     
         --subheading: 20px;   
         --paragraph: 15px;   
+
 
         /* Moble Headings */ 
         --heading-mobile: 42px;  

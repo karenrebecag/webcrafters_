@@ -99,22 +99,23 @@ const Scene: React.FC = () => {
 
     gltfLoader.load(
       '/assets/3DAssets/PortalDraco.glb',
-      (gltf: any) => {
-        const portalModel = gltf.scene;
+      (gltf) => {
+        const { scene: portalModel } = gltf as { scene: THREE.Object3D };
         portalModelRef.current = portalModel;
         portalModel.scale.set(1.1, 0.7, 0.7);
         portalModel.position.y = 0.4;
-        portalModel.rotation.set(THREE.MathUtils.degToRad(0.9), Math.PI, 0); // girado hacia la cámara
+        portalModel.rotation.set(THREE.MathUtils.degToRad(0.9), Math.PI, 0);
         world.add(portalModel);
-
+    
         const pointLight = new THREE.PointLight(0x96303F, 4, 10, 2);
         portalModel.add(pointLight);
-
+    
         setLoading(false);
       },
       undefined,
-      (error: any) => {
-        console.error('Error loading GLB:', error);
+      (error) => {
+        const e = error as Error;
+        console.error('Error loading GLB:', e.message || e);
         setLoading(false);
       }
     );
@@ -205,7 +206,7 @@ const Scene: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '70vh', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100vw', height: '80vh', overflow: 'hidden' }}>
       {loading && (
         <div style={{
           position: 'absolute',
@@ -225,7 +226,27 @@ const Scene: React.FC = () => {
           Loading Portal...
         </div>
       )}
+  
+      {/* Canvas */}
       <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+  
+      {/* Noise Overlay */}
+      <img
+        src="/assets/backgrounds/NoiseOverlay.png"
+        alt="Noise Overlay"
+        className="NoiseOverlay"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 5,
+          objectFit: 'cover',
+          opacity: 0.1
+        }}
+      />
     </div>
   );
 };

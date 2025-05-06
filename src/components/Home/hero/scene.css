@@ -1,4 +1,4 @@
 .canvasContainer{
-    max-height: 600px;
+    height: 80vh; 
     z-index: 10;
 }

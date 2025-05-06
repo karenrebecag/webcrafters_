@@ -68,9 +68,10 @@
 .inputAICategoryBtn{
     background-color: transparent;
     color: var(--white);
-    font-size: var(--subheading);
+    opacity: 0.7;
+    font-size: var(--paragraph);
     font-family: var(--main-font);
-    font-weight: var(--medium);
+    font-weight: var(--light);
     border: none;
     text-shadow: var(--button-shadow);
     display: flex;
