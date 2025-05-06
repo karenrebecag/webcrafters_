@@ -1,6 +1,5 @@
 /* Poppins */
 @import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200..800&family=Bungee+Tint&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geologica:wght@100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Yellowtail&display=swap');
-
 @font-face {
     font-family: 'Clash Display';
     src: url('/fonts/ClashDisplay-Variable.ttf') format('truetype');
@@ -11,6 +10,7 @@
 :root {
     /* === Typography === */
         --main-font: "Poppins", sans-serif;
+          font-optical-sizing: auto;
         --secondary-font: "Clash Display", sans-serif;
         --macro-heading: 92px;
         --heading: 48px;   

@@ -38,8 +38,8 @@ const Scene: React.FC = () => {
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#22082e');
-    scene.fog = new THREE.Fog('#2a0d3a', 8, 16);
+    scene.background = new THREE.Color('#000000');
+    scene.fog = new THREE.Fog('#000000', 8, 16);
 
     const camera = new THREE.PerspectiveCamera(18, width / height, 0.1, 20);
     camera.position.set(6.5, 4, 5.5);

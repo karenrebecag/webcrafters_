@@ -20,15 +20,22 @@
     
 }
 
-.WhiteButtonIcon { 
+
+.WhiteButtonIcon{
+    transition: transform 0.2s ease;
     height: 22px;
     width: 22px;
-}
+  }
+  
+  .WhiteButton:hover .WhiteButtonIcon {
+      transform:translateX(2)translateY(-2);
+      filter: invert(100%) brightness(100%);
+  } 
 
 .WhiteButton:hover {
     background-color: var(--red);
     font-family: var(--main-font);
-    font-weight: var(--bold);
+    font-weight: var(--medium);
     color: var(--white);
     padding: 5px 30px;
     cursor: pointer;
