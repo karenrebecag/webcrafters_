@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import Image from 'next/image';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
@@ -14,12 +14,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 const bloomParams = {
   strength: 0.2,
   radius: 0.4,
-  threshold: 0.2
+  threshold: 0.2,
 };
 
 const Scene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(true);
   const portalModelRef = useRef<THREE.Object3D | null>(null);
 
   useEffect(() => {
@@ -38,7 +37,7 @@ const Scene: React.FC = () => {
     mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#000000');
+    scene.background = null; // Set to transparent to avoid black flash
     scene.fog = new THREE.Fog('#000000', 8, 16);
 
     const camera = new THREE.PerspectiveCamera(18, width / height, 0.1, 20);
@@ -69,7 +68,7 @@ const Scene: React.FC = () => {
       textureWidth: width * window.devicePixelRatio,
       textureHeight: height * window.devicePixelRatio,
       color: 0x111111,
-      clipBias: 0.001
+      clipBias: 0.001,
     });
     reflector.rotation.x = -Math.PI / 2;
     world.add(reflector);
@@ -84,7 +83,7 @@ const Scene: React.FC = () => {
       opacity: 0.9,
       depthWrite: false,
       emissive: new THREE.Color('#2f0030'),
-      emissiveIntensity: 0.4
+      emissiveIntensity: 0.4,
     });
     const stoneFloor = new THREE.Mesh(mirrorGeo, stoneMat);
     stoneFloor.rotation.x = -Math.PI / 2;
@@ -101,6 +100,7 @@ const Scene: React.FC = () => {
     gltfLoader.load(
       '/assets/3DAssets/PortalDraco.glb',
       (gltf: { scene: THREE.Object3D }) => {
+        console.log('GLTF Model Loaded');
         const portalModel = gltf.scene;
         portalModelRef.current = portalModel;
         portalModel.scale.set(1.1, 0.7, 0.7);
@@ -108,19 +108,19 @@ const Scene: React.FC = () => {
         portalModel.rotation.set(THREE.MathUtils.degToRad(0.9), Math.PI, 0);
         world.add(portalModel);
 
-        const pointLight = new THREE.PointLight(0x96303F, 4, 10, 2);
+        const pointLight = new THREE.PointLight(0x96303f, 4, 10, 2);
         portalModel.add(pointLight);
 
-        setLoading(false);
+        // Set background color after model loads to match original behavior
+        scene.background = new THREE.Color('#000000');
       },
-      undefined,
+      (progress) => {
+        console.log(`Loading GLTF: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
+      },
       (error: unknown) => {
-        if (error instanceof Error) {
-          console.error('Error loading GLB:', error.message);
-        } else {
-          console.error('Error loading GLB:', error);
-        }
-        setLoading(false);
+        console.error('Error loading GLTF model:', error);
+        // Set background color even on error
+        scene.background = new THREE.Color('#000000');
       }
     );
 
@@ -150,7 +150,7 @@ const Scene: React.FC = () => {
       size: 0.02,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.3,
     });
 
     const particles = new THREE.Points(particleGeometry, particleMaterial);
@@ -215,29 +215,18 @@ const Scene: React.FC = () => {
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '80vh', overflow: 'hidden' }}>
-      {loading && (
-        <div style={{
+      <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+      <div
+        style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: '#22082e',
-          color: 'white',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontFamily: 'sans-serif',
-          fontSize: '1.2rem',
-          zIndex: 10
-        }}>
-          Loading Portal...
-        </div>
-      )}
-
-      <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
-
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 5, pointerEvents: 'none' }}>
+          zIndex: 5,
+          pointerEvents: 'none',
+        }}
+      >
         <Image
           src="/assets/backgrounds/NoiseOverlay.png"
           alt="Noise Overlay"

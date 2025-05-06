@@ -1,11 +1,25 @@
-/* === GLOBAL RESET FOR LINKS === */
+/* === GLOBAL RESET FOR LINKS AND BUTTONS === */
 .nav-links a,
 .nav-links a:focus,
 .nav-links a:visited,
-.nav-links a:active {
-  text-decoration: none;
+.nav-links a:active,
+.Btn,
+.Btn:focus,
+.Btn:visited,
+.Btn:active,
+.hamburger,
+.hamburger:focus,
+.hamburger:visited,
+.hamburger:active,
+.dropdown-item,
+.dropdown-item:focus,
+.dropdown-item:visited,
+.dropdown-item:active {
+  text-decoration: none !important;
+  text-decoration-color: transparent !important;
   color: inherit;
   border: none;
+  outline: none;
 }
 
 .header {
@@ -92,7 +106,7 @@
   display: flex;
   gap: 16px;
   justify-content: center;
-  align-items: baseline;
+  align-items: center;
 }
 
 /* === TOGGLE SWITCH === */
@@ -132,7 +146,7 @@
 }
 
 .slider::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 3px;
   left: 0;
@@ -165,14 +179,13 @@
 }
 
 .Btn:hover {
-  background-color: #3F1029;
+  background-color: #3f1029;
 }
 
 .svgIcon {
   position: relative;
   top: 3px;
 }
-
 
 .Btn:hover .svgIcon {
   fill: white;
@@ -190,6 +203,48 @@
   }
 }
 
+/* === LANGUAGE DROPDOWN === */
+.language-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  overflow: hidden;
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.dropdown-menu.open {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  width: 100px;
+  padding: 8px 16px;
+  background: none;
+  color: var(--white);
+  font-family: var(--main-font);
+  font-size: var(--paragraph);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #3f1029;
+}
+
 /* === MEGA MENU === */
 .mega-menu {
   position: fixed;
@@ -202,15 +257,27 @@
   z-index: 998;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease;
   background-size: 40px 40px;
-  background-position: center;
+  background-position: 0 0;
   background-repeat: repeat;
+  --gradient-angle: 0deg;
+  transition: background-color 0.5s ease, background-image 0.5s ease;
+}
+
+.mega-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--gradient-angle),
+    rgba(255, 0, 0, 0.05),
+    rgba(0, 255, 255, 0.05),
+    rgba(255, 0, 0, 0.05)
+  );
+  z-index: -1;
 }
 
 .mega-menu.open {
-  display: flex;
-  opacity: 1;
   pointer-events: all;
 }
 
@@ -226,6 +293,20 @@
   background-image:
     linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+@keyframes moveGrid {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.mega-menu.dark,
+.mega-menu.light {
+  animation: moveGrid 20s linear infinite;
 }
 
 .mega-nav {
@@ -248,7 +329,22 @@
 }
 
 .mega-nav span.active {
-  color: var(--red);
+  background: var(--red-main-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mega-menu.light .mega-nav span {
+  color: #808080;
+  background: none;
+  -webkit-text-fill-color: #808080;
+}
+
+.mega-menu.light .mega-nav span.active {
+  color: #ff0000;
+  background: none;
+  -webkit-text-fill-color: #ff0000;
 }
 
 .mega-icons {
