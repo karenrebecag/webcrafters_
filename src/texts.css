@@ -19,6 +19,40 @@
     display: flex;
     text-align: start;
 }
+
+.HeadingGradientWhite {
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--heading);
+    background: var(--white-text-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    line-height: 90px;
+    display: flex;
+    text-align: start;
+    z-index: 100;
+    position: a;
+}
+
+.HeadingGradientRed{
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--heading);
+    background: var(--red-main-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    line-height: 90px;
+    display: flex;
+    text-align: start;
+    z-index: 100;
+    position: a;
+}
+
+
 .HeadingBlack {
     font-family: var(--main-font);
     font-weight: var(--medium);
@@ -68,6 +102,7 @@
     background: var(--red-main-gradient); 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
     line-height: 90px;
     text-align: start;
 

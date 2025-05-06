@@ -1,12 +1,12 @@
-import '../../variables.css';
-import '../../texts.css';
+import '../../../variables.css';
+import '../../../texts.css';
 import './info.css'
-import WhiteButton from '../buttons/WhiteButton';
-import ChromeButton from '../buttons/ChromeButton';
+import WhiteButton from '../../Global/buttons/WhiteButton';
+import ChromeButton from '../../Global/buttons/ChromeButton';
 import Marquee from './Marquee';
 import Numbers from './Numbers';
 
-import BlobsBackground from '../BlobsBackground';
+import BlobsBackground from '../../Global/BlobsBackground';
 
 export default function AboutIntro() {
   return (

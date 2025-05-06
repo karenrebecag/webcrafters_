@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import './header.css';
@@ -8,37 +8,21 @@ import './header.css';
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
-  const [showHeader, setShowHeader] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [headerPosition, setHeaderPosition] = useState<'absolute' | 'sticky'>('absolute');
-  const prevScrollY = useRef(0);
 
   const navItems = ['Home', 'Services', 'Insights', 'Blog', 'Plans', 'Contact'];
 
   useEffect(() => {
     const updateViewport = () => setIsMobile(window.innerWidth <= 1200);
-    updateViewport(); // run on mount
-
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setHeaderPosition(scrollY === 0 ? 'absolute' : 'sticky');
-      setShowHeader(scrollY < prevScrollY.current || scrollY < 100);
-      prevScrollY.current = scrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    updateViewport();
     window.addEventListener('resize', updateViewport);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateViewport);
-    };
+    return () => window.removeEventListener('resize', updateViewport);
   }, []);
 
   return (
     <>
-      <header className={`header ${showHeader ? 'visible' : 'hidden'} ${isDarkMode ? 'dark' : 'light'} ${headerPosition}`}>
-      <div id="header-spacer"></div>
+      <header className={`header sticky ${isDarkMode ? 'dark' : 'light'} visible`}>
+        <div id="header-spacer"></div>
         {!isMobile ? (
           <div className="header-desktop">
             <Image
@@ -76,43 +60,34 @@ const Header: React.FC = () => {
             </div>
           </div>
         ) : (
-        <div className="header-mobile">
-        <div className="toggle-switch">
-            <label className="switch-label">
-            <input
-                type="checkbox"
-                className="checkbox"
-                checked={!isDarkMode}
-                onChange={() => setIsDarkMode(prev => !prev)}
+          <div className="header-mobile">
+            <div className="toggle-switch">
+              <label className="switch-label">
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  checked={!isDarkMode}
+                  onChange={() => setIsDarkMode(prev => !prev)}
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+            <Image
+              src="/assets/Logos/webCraftersLogoWhite.svg"
+              alt="WebCrafters Logo"
+              width={140}
+              height={30}
+              className="logo"
             />
-            <span className="slider"></span>
-            </label>
-        </div>
+            <div className="right-icons">
 
-        <Image
-            src="/assets/Logos/webCraftersLogoWhite.svg"
-            alt="WebCrafters Logo"
-            width={140}
-            height={30}
-            className="logo"
-        />
-
-        <div className="right-icons">
-            {['InstagramIcon', 'LinkedinIcon', 'LanguagesIcon'].map(icon => (
-            <button className="Btn" key={icon}>
-                <Image src={`/assets/Icons/${icon}.svg`} alt={icon} width={20} height={20} className="svgIcon" />
-                <span className="icon2"></span>
-            </button>
-            ))}
-
-            <button className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(prev => !prev)}>
-            <div />
-            <div />
-            <div />
-            </button>
-        </div>
-        </div>
-
+              <button className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(prev => !prev)}>
+                <div />
+                <div />
+                <div />
+              </button>
+            </div>
+          </div>
         )}
       </header>
 
@@ -126,12 +101,12 @@ const Header: React.FC = () => {
             ))}
           </nav>
           <div className="mega-icons">
-            <span>🌐</span>
-            <span>📍</span>
-            <span>✉️</span>
-            <span>📞</span>
-            <span>📸</span>
-            <span>in</span>
+          {['InstagramIcon', 'LinkedinIcon', 'LanguagesIcon'].map(icon => (
+                <button className="Btn" key={icon}>
+                  <Image src={`/assets/Icons/${icon}.svg`} alt={icon} width={20} height={20} className="svgIcon" />
+                  <span className="icon2"></span>
+                </button>
+              ))}
           </div>
         </div>
       )}

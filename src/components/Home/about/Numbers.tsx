@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import './Numbers.css';
-import WhiteButton from '../buttons/WhiteButton';
+import WhiteButton from '../../Global/buttons/WhiteButton';
 import CountUpDigit from './CountUpDigit'; 
 
 export default function Numbers() {

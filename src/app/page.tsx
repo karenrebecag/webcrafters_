@@ -1,15 +1,16 @@
-import Info from '@/components/About/Info';
-import Services from '@/components/Services/Services';
-import Scene from '@/components/hero/Scene';
-import Header from '@/components/header/Header';
+import Info from '@/components/Home/about/Info';
+import HomeBanner from '@/components/Home/hero/HomeBanner';
+import WhiteSection from '@/components/Home/whiteSection/WhiteSection';
+import Header from '@/components/Global/header/Header';
+
 
 export default function HomePage() {
   return (
     <main>
-      <Header />
-      <Scene />
+      <Header/>
+      <HomeBanner />
       <Info />
-      <Services />
+      <WhiteSection/>
     </main>
   );
 }

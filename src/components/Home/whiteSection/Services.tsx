@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import styles from './Services.module.css';
-import '../../texts.css';
+import '@/texts.css';
+import styles from './services.module.css';
 
 const services = [
   {
@@ -43,7 +43,7 @@ const services = [
   },
 ];
 
-export default function ServicesSection() {
+export default function Services() {
   return (
     <section className={styles.servicesSection}>
         <div className={styles.TitleSection}>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, ReactNode, useRef } from 'react';
-import '../globals.css';
+import '../../globals.css';
 
 interface BlobsBackgroundProps {
   className?: string;

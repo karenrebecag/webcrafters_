@@ -1,35 +1,40 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { Reflector } from 'three/examples/jsm/objects/Reflector';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
-import { ObjectLoader } from 'three';
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const bloomParams = {
-  strength: 0.3,
-  radius: 0.55,
-  threshold: 0.15
+  strength: 0.2,
+  radius: 0.4,
+  threshold: 0.2
 };
 
 const Scene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
+  const portalModelRef = useRef<THREE.Object3D | null>(null);
 
   useEffect(() => {
-    if (!mountRef.current) return;
-    const width = mountRef.current.clientWidth;
-    const height = mountRef.current.clientHeight;
+    const mount = mountRef.current;
+    if (!mount) return;
+    const width = mount.clientWidth;
+    const height = mount.clientHeight;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(width, height);
-    renderer.physicallyCorrectLights = true;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    (renderer as any).physicallyCorrectLights = true;
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = 0.9;
-    mountRef.current.appendChild(renderer.domElement);
+    mount.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#22082e');
@@ -55,13 +60,13 @@ const Scene: React.FC = () => {
     const stoneTex = tl.load('/assets/backgrounds/stoneTexture.jpg', t => {
       t.wrapS = t.wrapT = THREE.RepeatWrapping;
       t.repeat.set(6, 6);
-      t.encoding = THREE.SRGBColorSpace;
+      t.colorSpace = THREE.SRGBColorSpace;
     });
 
-    const mirrorGeo = new THREE.CircleGeometry(6, 20);
+    const mirrorGeo = new THREE.CircleGeometry(6, 12);
     const reflector = new Reflector(mirrorGeo, {
-      textureWidth: width * devicePixelRatio,
-      textureHeight: height * devicePixelRatio,
+      textureWidth: width * window.devicePixelRatio,
+      textureHeight: height * window.devicePixelRatio,
       color: 0x111111,
       clipBias: 0.001
     });
@@ -86,26 +91,34 @@ const Scene: React.FC = () => {
     stoneFloor.renderOrder = 1;
     world.add(stoneFloor);
 
-    let portalModel: THREE.Object3D | null = null;
-    const loader = new ObjectLoader();
-    loader.load('/assets/3DAssets/Portal.json', (loadedObject) => {
-      portalModel = loadedObject;
-      loadedObject.scale.set(1.4 * 0.7, 1 * 0.7, 1 * 0.7);
-      loadedObject.position.y = 0.4;
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.3/');
 
-      loadedObject.rotation.set(
-        Math.PI * -0.5, // X → Inclina el modelo hacia adelante o atrás (por ejemplo, 45°)
-        Math.PI,        // Y → Gira el modelo horizontalmente (180° para mirar hacia atrás)
-        0               // Z → Rota en espiral como una moneda girando (0 = sin rotación)
-      );
-    
-      world.add(loadedObject);
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.setDRACOLoader(dracoLoader);
 
-      const pointLight = new THREE.PointLight(0x96303F, 4, 10, 2);
-      loadedObject.add(pointLight);
-    });
+    gltfLoader.load(
+      '/assets/3DAssets/PortalDraco.glb',
+      (gltf: any) => {
+        const portalModel = gltf.scene;
+        portalModelRef.current = portalModel;
+        portalModel.scale.set(1.1, 0.7, 0.7);
+        portalModel.position.y = 0.4;
+        portalModel.rotation.set(THREE.MathUtils.degToRad(0.9), Math.PI, 0); // girado hacia la cámara
+        world.add(portalModel);
 
-    // Particles
+        const pointLight = new THREE.PointLight(0x96303F, 4, 10, 2);
+        portalModel.add(pointLight);
+
+        setLoading(false);
+      },
+      undefined,
+      (error: any) => {
+        console.error('Error loading GLB:', error);
+        setLoading(false);
+      }
+    );
+
     const particleCount = 200;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -117,7 +130,7 @@ const Scene: React.FC = () => {
       const radius = 1.5 + Math.random() * 1.5;
       const y = Math.random() * 1.2;
 
-      positions[i * 3 + 0] = Math.cos(angle) * radius;
+      positions[i * 3] = Math.cos(angle) * radius;
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = Math.sin(angle) * radius;
 
@@ -142,7 +155,6 @@ const Scene: React.FC = () => {
 
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(width, height),
       bloomParams.strength,
@@ -152,27 +164,13 @@ const Scene: React.FC = () => {
     composer.addPass(bloomPass);
     composer.addPass(new OutputPass());
 
-    const tgtEuler = new THREE.Euler();
-    const tgtQuat = new THREE.Quaternion();
-    renderer.domElement.addEventListener('pointermove', e => {
-      const x = (e.clientX / width - 0.5) * 2;
-      const y = (e.clientY / height - 0.5) * 2;
-      tgtEuler.set(-y * 0.01, x * 0.05, 0);
-      tgtQuat.setFromEuler(tgtEuler);
-    });
-    renderer.domElement.addEventListener('pointerleave', () => {
-      tgtEuler.set(0, 0, 0);
-      tgtQuat.setFromEuler(tgtEuler);
-    });
-
     const t0 = performance.now();
     let frameId = 0;
     const animate = () => {
-      const time = performance.now() * 0.001;
       const t = (performance.now() - t0) * 0.001;
 
-      if (portalModel) {
-        portalModel.position.y = 0.4 + Math.sin(t * 2.5) * 0.08;
+      if (portalModelRef.current) {
+        portalModelRef.current.position.y = 0.4 + Math.sin(t * 2.5) * 0.08;
       }
 
       const pos = particleGeometry.attributes.position as THREE.BufferAttribute;
@@ -183,7 +181,6 @@ const Scene: React.FC = () => {
       }
       pos.needsUpdate = true;
 
-      world.quaternion.slerp(tgtQuat, 0.1);
       composer.render();
       frameId = requestAnimationFrame(animate);
     };
@@ -208,10 +205,28 @@ const Scene: React.FC = () => {
   }, []);
 
   return (
-    <div
-      ref={mountRef}
-      style={{ width: '100vw', height: '70vh', overflow: 'hidden', cursor: 'pointer' }}
-    />
+    <div style={{ position: 'relative', width: '100vw', height: '70vh', overflow: 'hidden' }}>
+      {loading && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#22082e',
+          color: 'white',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: 'sans-serif',
+          fontSize: '1.2rem',
+          zIndex: 10
+        }}>
+          Loading Portal...
+        </div>
+      )}
+      <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+    </div>
   );
 };
 
