@@ -12,8 +12,8 @@ export default function Numbers() {
       <div className="TopLayer" />
       
       <div className="NumbersBadge">
-        <Image
-          src="/assets/icons/Aterisk.png"
+      <Image
+          src="https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/Union_.svg"
           alt="Asterisk"
           className="BadgeIcon"
           width={32}

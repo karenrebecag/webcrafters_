@@ -35,9 +35,11 @@ export default function AboutIntro() {
         </div>
 
           <Marquee />
+          {/*
           <div className='Center'>
             <ChromeButton iconSrc="/assets/icons/ArrowDown.svg" />
           </div>
+          */}
           <Numbers />
         </div>
       </BlobsBackground>

@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import './inputAI.css';
 
@@ -30,7 +30,14 @@ const InputAI: React.FC = () => {
           rows={1}
         />
         <button className="inputAISubmitButton" onClick={handleSubmit}>
-          <span className="inputAIArrow">➤</span>
+          <Image
+            src="https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/ArrowUp.svg"
+            alt="Arrow Icon"
+            width={16}
+            height={16}
+            className="inputAIArrow"
+            priority
+          />
         </button>
       </div>
 

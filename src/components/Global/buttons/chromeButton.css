@@ -1,8 +1,8 @@
 .circularButton {
     align-self: center;
     box-sizing: border-box;
-    width: 150px;
-    height: 150px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     position: relative;
     display: flex;
@@ -27,7 +27,7 @@
     transition: transform 0.8s ease, filter 0.8s ease;
     perspective: 1000px;
     z-index: 20;
-    top: 60px;
+    top: 40px;
     transform: scale(0.75);
   }
   
@@ -46,8 +46,8 @@
   }
   
   .centerIcon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
     pointer-events: none;
     position: relative;

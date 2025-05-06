@@ -12,11 +12,42 @@ const Header: React.FC = () => {
 
   const navItems = ['Home', 'Services', 'Insights', 'Blog', 'Plans', 'Contact'];
 
+  const icons = [
+    {
+      name: 'Instagram',
+      url: 'https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/InstagramWhite.svg'
+    },
+    {
+      name: 'LinkedIn',
+      url: 'https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/LinkedinWhite.svg'
+    },
+    {
+      name: 'Languages',
+      url: 'https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/LanguagesWhite.svg'
+    }
+  ];
+
   useEffect(() => {
     const updateViewport = () => setIsMobile(window.innerWidth <= 1200);
     updateViewport();
     window.addEventListener('resize', updateViewport);
     return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector('.header');
+      if (header) {
+        if (window.scrollY > 10) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -51,10 +82,9 @@ const Header: React.FC = () => {
                   <span className="slider"></span>
                 </label>
               </div>
-              {['InstagramIcon', 'LinkedinIcon', 'LanguagesIcon'].map(icon => (
-                <button className="Btn" key={icon}>
-                  <Image src={`/assets/Icons/${icon}.svg`} alt={icon} width={20} height={20} className="svgIcon" />
-                  <span className="icon2"></span>
+              {icons.map((icon) => (
+                <button className="Btn" key={icon.name}>
+                  <Image src={icon.url} alt={`${icon.name} Icon`} width={20} height={20} className="svgIcon" />
                 </button>
               ))}
             </div>
@@ -80,11 +110,10 @@ const Header: React.FC = () => {
               className="logo"
             />
             <div className="right-icons">
-
               <button className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(prev => !prev)}>
-                <div />
-                <div />
-                <div />
+                <div/>
+                <div/>
+                <div/>
               </button>
             </div>
           </div>
@@ -101,12 +130,11 @@ const Header: React.FC = () => {
             ))}
           </nav>
           <div className="mega-icons">
-          {['InstagramIcon', 'LinkedinIcon', 'LanguagesIcon'].map(icon => (
-                <button className="Btn" key={icon}>
-                  <Image src={`/assets/Icons/${icon}.svg`} alt={icon} width={20} height={20} className="svgIcon" />
-                  <span className="icon2"></span>
-                </button>
-              ))}
+            {icons.map((icon) => (
+              <button className="Btn" key={icon.name}>
+                <Image src={icon.url} alt={`${icon.name} Icon`} width={20} height={20} className="svgIcon" />
+              </button>
+            ))}
           </div>
         </div>
       )}
