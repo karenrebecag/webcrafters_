@@ -24,6 +24,7 @@ const Scene: React.FC = () => {
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount) return;
+
     const width = mount.clientWidth;
     const height = mount.clientHeight;
 
@@ -31,7 +32,7 @@ const Scene: React.FC = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(width, height);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    (renderer as any).physicallyCorrectLights = true;
+    (renderer as THREE.WebGLRenderer).physicallyCorrectLights = true;
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = 0.9;
     mount.appendChild(renderer.domElement);
@@ -57,7 +58,7 @@ const Scene: React.FC = () => {
     scene.add(world);
 
     const tl = new THREE.TextureLoader();
-    const stoneTex = tl.load('/assets/backgrounds/stoneTexture.jpg', t => {
+    const stoneTex = tl.load('/assets/backgrounds/stoneTexture.jpg', (t) => {
       t.wrapS = t.wrapT = THREE.RepeatWrapping;
       t.repeat.set(6, 6);
       t.colorSpace = THREE.SRGBColorSpace;
@@ -99,23 +100,26 @@ const Scene: React.FC = () => {
 
     gltfLoader.load(
       '/assets/3DAssets/PortalDraco.glb',
-      (gltf) => {
-        const { scene: portalModel } = gltf as { scene: THREE.Object3D };
+      (gltf: { scene: THREE.Object3D }) => {
+        const portalModel = gltf.scene;
         portalModelRef.current = portalModel;
         portalModel.scale.set(1.1, 0.7, 0.7);
         portalModel.position.y = 0.4;
         portalModel.rotation.set(THREE.MathUtils.degToRad(0.9), Math.PI, 0);
         world.add(portalModel);
-    
+
         const pointLight = new THREE.PointLight(0x96303F, 4, 10, 2);
         portalModel.add(pointLight);
-    
+
         setLoading(false);
       },
       undefined,
-      (error) => {
-        const e = error as Error;
-        console.error('Error loading GLB:', e.message || e);
+      (error: unknown) => {
+        if (error instanceof Error) {
+          console.error('Error loading GLB:', error.message);
+        } else {
+          console.error('Error loading GLB:', error);
+        }
         setLoading(false);
       }
     );
@@ -188,8 +192,10 @@ const Scene: React.FC = () => {
     animate();
 
     const onResize = () => {
-      const w = mountRef.current?.clientWidth ?? 0;
-      const h = mountRef.current?.clientHeight ?? 0;
+      const newMount = mountRef.current;
+      if (!newMount) return;
+      const w = newMount.clientWidth;
+      const h = newMount.clientHeight;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
@@ -200,7 +206,9 @@ const Scene: React.FC = () => {
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', onResize);
-      mountRef.current?.removeChild(renderer.domElement);
+      if (mount) {
+        mount.removeChild(renderer.domElement);
+      }
       renderer.dispose();
     };
   }, []);
@@ -226,11 +234,9 @@ const Scene: React.FC = () => {
           Loading Portal...
         </div>
       )}
-  
-      {/* Canvas */}
+
       <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
-  
-      {/* Noise Overlay */}
+
       <img
         src="/assets/backgrounds/NoiseOverlay.png"
         alt="Noise Overlay"
