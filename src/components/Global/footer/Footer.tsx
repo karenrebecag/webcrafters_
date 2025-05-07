@@ -158,8 +158,8 @@ export default function Footer() {
                 <Image
                   src="/assets/Logos/webCraftersLogoWhite.svg"
                   alt="WebCrafters Logo"
-                  width={212}
-                  height={27}
+                  width={256}
+                  height={32}
                   priority
                 />
               </div>

@@ -26,17 +26,22 @@
     background-color: #1310192c;
     max-width: 1200px;
     margin-top: var(--space-lg);
+    padding: 50px 50px;
+    border-radius: 30px;
   }
   
   .footer-logo-section {
     width: 267.61px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align content to the right */
+    align-items: flex-start; 
+
   }
   
   .footer-logo {
     margin-bottom: var(--space-md);
+    position: relative;
+    right: 50px;
   }
   
   .footer-description,
@@ -53,6 +58,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 20%;
   }
   
   .footer-section-title {

@@ -38,3 +38,13 @@
 .HeadingGradientWhite, .HeadingGradientRed{
   text-align: center!important;
 }
+
+
+@media (min-width: 1800px) {
+  .homeBanner-content {
+    padding: 10rem 0;
+  }
+  .text-container {
+    padding-bottom: 40em;
+    }
+}
