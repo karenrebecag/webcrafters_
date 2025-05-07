@@ -91,7 +91,6 @@
     font-family: var(--main-font);
     font-weight: var(--medium);
     font-size: var(--small-heading);
-    color: var(--black);
     display: flex;
     text-align: start;
 }

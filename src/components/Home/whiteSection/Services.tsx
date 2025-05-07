@@ -46,39 +46,41 @@ const services = [
 export default function Services() {
   return (
     <section className={styles.servicesSection}>
-        <div className={styles.TitleSection}>
-            <div className='ColTitle'>
-                <span className='RedDot'>• </span>
-                <span className="MiniTextBlack">Services</span>
-            </div>
-            <h4 className="HeadingBlack">Where Every Frame 
-            Speaks, Every Detail Inspires</h4>
+      <div className={styles.TitleSection}>
+        <div className="ColTitle">
+          <span className="RedDot">• </span>
+          <span className="MiniTextBlack">Services</span>
         </div>
-          <div className={styles.grid}>
-            {services.map((service, index) => (
-              <div key={index} className={styles.card}>
-                <div className={styles.icon}>
-                  <Image className='animatedIcon'
-                    src={service.icon}
-                    alt={service.title}
-                    width={38}
-                    height={38}
-                    priority
-                  />
-                </div>
-                <h3 className="MiniHeadingBlack">{service.title}</h3>
-                <p className="ParagraphBlack">{service.description}</p>
-                <div className={styles.arrow}>
-                <Image
-                    src="https://r2-images-webcrafters.karen-ortizg.workers.dev/ArrowUp.svg"
-                    alt="Arrow Icon"
-                    width={24}
-                    height={24}
-                  />
-                </div>
-              </div>
-            ))}
+        <h4 className="HeadingBlack">
+          Where Every Frame Speaks, Every Detail Inspires
+        </h4>
+      </div>
+      <div className={styles.grid}>
+        {services.map((service, index) => (
+          <div key={index} className={styles.card}>
+            <div className={styles.icon}>
+              <Image
+                className="animatedIcon"
+                src={service.icon}
+                alt={service.title}
+                width={38}
+                height={38}
+                priority
+              />
+            </div>
+            <h3 className="MiniHeadingBlack">{service.title}</h3>
+            <p className="ParagraphBlack">{service.description}</p>
+            <div className={styles.arrow}>
+              <Image
+                src="https://r2-images-webcrafters.karen-ortizg.workers.dev/ArrowUp.svg"
+                alt="Arrow Icon"
+                width={24}
+                height={24}
+              />
+            </div>
           </div>
+        ))}
+      </div>
     </section>
   );
 }

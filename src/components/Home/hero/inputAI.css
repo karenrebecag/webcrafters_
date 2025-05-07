@@ -19,7 +19,16 @@
 }
 
 .inputAIField {
-  background-color: #3e162d;
+  background-image: linear-gradient(
+    to right,
+    #140418 0%,
+    #1e051a 12%,
+    #2b0c20 33%,
+    #331126 50%,
+    #291427 69%,
+    #190d23 88%,
+    #0f041c 100%
+  );
   border: none;
   border-radius: 50px 0px 0px 50px;
   width: 100%;

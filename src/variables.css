@@ -1,73 +1,68 @@
 /* Poppins */
 @import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200..800&family=Bungee+Tint&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geologica:wght@100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Yellowtail&display=swap');
 @font-face {
-    font-family: 'Clash Display';
-    src: url('/fonts/ClashDisplay-Variable.ttf') format('truetype');
-    font-weight: 100 900;
-    font-display: swap;
-  }
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
 
 :root {
-    /* === Typography === */
-        --main-font: "Poppins", sans-serif;
-          font-optical-sizing: auto;
-        --secondary-font: "Clash Display", sans-serif;
-        --macro-heading: 92px;
-        --heading: 48px;   
-        --subheadingBig: 40px;     
-        --subheading: 20px;   
-        --paragraph: 15px;   
+  /* === Typography === */
+  --main-font: "Poppins", sans-serif;
+  font-optical-sizing: auto;
+  --secondary-font: "Clash Display", sans-serif;
+  --macro-heading: 92px;
+  --heading: 48px;   
+  --subheadingBig: 40px;     
+  --subheading: 20px;   
+  --paragraph: 15px;   
 
+  /* Moble Headings */ 
+  --heading-mobile: 42px;  
 
-        /* Moble Headings */ 
-        --heading-mobile: 42px;  
+  /* Small Headings */ 
+  --small-heading: 28px;    
+  /* Ultra Small Viewports =<360px */ 
+  --heading-xxs: 24px;
 
-        /* Small Headings */ 
-        --small-heading: 28px;    
-        /* Ultra Small Viewports =<360px */ 
-        --heading-xxs: 24px;
+  /* Font Weights */ 
+  --bold: 800;
+  --semibold: 600;
+  --medium: 500;
+  --regular: 300;
 
-        /* Font Weights */ 
-        --bold: 800;
-        --semibold: 600;
-        --medium: 500;
-        --regular: 300;
+  /* === Colors === */
+  --red-main-gradient: linear-gradient(90deg, #FFA8AC 0%, #822227 100%);
+  --red-secondary-gradient: linear-gradient(90deg, #B55E62 0%, #AD0F17 100%);
+  --white-text-gradient: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
+  --black-text: #131019;
+  --white: #ffffff;
+  --gray: #D6D4D4;
+  --red: #D8161F;
+  --black: #000000;
 
-  
-    /* === Colors === */
-    --red-main-gradient: linear-gradient(90deg, #FFA8AC 0%, #822227 100%);
-    --red-secondary-gradient: linear-gradient(90deg, #B55E62 0%, #AD0F17 100%);
-    --white-text-gradient: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.7) 100%
-      );
-    --black-text: #131019;
-    --white: #ffffff;
-    --gray: #D6D4D4;
-    --red: #D8161F;
-    --black: #000000;
-
-    /* === Effects === */
-    --glow-effect: 0px 4px 54.4px rgba(255, 254, 205, 0.8);
-    --glow-effect-text: 
+  /* === Effects === */
+  --glow-effect: 0px 4px 54.4px rgba(255, 254, 205, 0.8);
+  --glow-effect-text: 
     0 0 5px rgba(255, 254, 205, 0.4),
     0 0 10px rgba(255, 254, 205, 0.5),
     0 0 20px rgba(255, 254, 205, 0.6),
     0 0 54.4px rgba(255, 254, 205, 0.8);
-    --button-shadow: 0px 4px 26px rgba(0, 0, 0, 0.23);
+  --button-shadow: 0px 4px 26px rgba(0, 0, 0, 0.23);
 
-    /* === Static Color Background === */
-    --white-background-gradient: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 100%);
-    --dark-background-gradient: radial-gradient(circle, #372C2D 2%, #1F1314 100%);
+  /* === Static Color Background === */
+  --white-background-gradient: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 100%);
+  --dark-background-gradient: radial-gradient(circle, #372C2D 2%, #1F1314 100%);
 
-    /* === Spacing === */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 32px;
-    --space-xl: 64px;
-
-
-
-  }
+  /* === Spacing === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --space-xl: 64px;
+}

@@ -1,153 +1,153 @@
 .NumbersContainer {
-    position: relative;
-    max-width: 1624px;
-    max-height: 1071px;
-    margin: 0px 50px;
+  position: relative;
+  max-width: 1624px;
+  max-height: 1071px;
+  margin: 0px 50px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50px;
-    overflow: hidden;
-    color: white;
-    padding: 50px 50px;
-    font-weight: bold;
-  }
-  
-  .NumbersContainer::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle,
-      rgba(235, 83, 96, 0.4) 2%,
-      rgba(105, 21, 30, 0.4) 100%
-    );
-    z-index: 1;
-  }
-  
-  .NumbersContainer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('/assets/backgrounds/NumbersBottom.gif');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 3;
-    mix-blend-mode: screen;
-    opacity: 0.9;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  overflow: hidden;
+  color: white;
+  padding: 50px 50px;
+  font-weight: bold;
+}
 
-  .GridOverlay {
-    position: absolute;
-    inset: 0;
-    z-index: 6;
-    pointer-events: none;
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.048) 1px, transparent 1px);
-    background-size: 40px 40px; 
-  }
+.NumbersContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(235, 83, 96, 0.4) 2%,
+    rgba(105, 21, 30, 0.4) 100%
+  );
+  z-index: 1;
+  will-change: transform, opacity; /* Optimize for rendering */
+}
 
-  .TopLayer {
-    position: absolute;
-    inset: 0; 
-    background-image: url('/assets/backgrounds/NumbersTop.gif');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 4; 
-    opacity: 0.4;
-    pointer-events: none; 
-  }
-  
-  .NumbersContainer > *:not(.TopLayer):not(.GridOverlay) {
-    position: relative;
-    z-index: 5;
-  }
+.NumbersContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/backgrounds/NumbersBottom.gif');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 3;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  will-change: transform, opacity; /* Optimize for rendering */
+}
 
+.GridOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.048) 1px, transparent 1px);
+  background-size: 40px 40px; 
+}
 
-  .NumbersBadge {
-    position: relative;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(50px);
-    border-radius: 150px;
-    padding: 24px 32px;
-    max-width: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    z-index: 0;
-    overflow: hidden;
-  }
-  
-  .NumbersBadge::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 1px; 
-    border-radius: inherit;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(0, 0, 0, 0) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    pointer-events: none;
-    z-index: 1;
-  }
-  
-  .NumbersBadge > * {
-    position: relative;
-    z-index: 2;
-  }
-  
-  .BadgeIcon {
-    width: 32px;
-    height: 32px;
-    background-color: transparent;
-  }
-  
-  
-  
-  .BadgeLabel {
-    text-transform: uppercase;
-    color: #ddd;
-  }
-  
-  .NumbersContent {
-    text-align: start;
-    display: flex;
-    width: 60%;
-    flex-direction: column;
-  }
-  
-  .StatsRow {
-    display: flex;
-    justify-content: start;
-    gap: 48px;
-    flex-wrap: wrap;
-    
-  }
+.TopLayer {
+  position: absolute;
+  inset: 0; 
+  background-image: url('/assets/backgrounds/NumbersTop.gif');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 4; 
+  opacity: 0.4;
+  pointer-events: none; 
+  will-change: transform, opacity; /* Optimize for rendering */
+}
 
-  .WhiteButton{
-    max-width: 167PX;
+.NumbersContainer > *:not(.TopLayer):not(.GridOverlay) {
+  position: relative;
+  z-index: 5;
+}
+
+.NumbersBadge {
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(50px);
+  border-radius: 150px;
+  padding: 24px 32px;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.NumbersBadge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px; 
+  border-radius: inherit;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.NumbersBadge > * {
+  position: relative;
+  z-index: 2;
+}
+
+.BadgeIcon {
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+}
+
+.BadgeLabel {
+  text-transform: uppercase;
+  color: #ddd;
+}
+
+.NumbersContent {
+  text-align: start;
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+}
+
+.StatsRow {
+  display: flex;
+  justify-content: start;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.WhiteButton {
+  max-width: 167px;
+}
+
+@keyframes rotate360 {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  @keyframes rotate360 {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
   }
+}
+
 .countup {
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -156,39 +156,37 @@
 .countup.visible {
   opacity: 1;
 }
-  .BadgeIcon {
-    width: 32px;
-    height: 32px;
-    animation: rotate360 15s linear infinite;
-  }
 
+.BadgeIcon {
+  width: 32px;
+  height: 32px;
+  animation: rotate360 15s linear infinite;
+}
 
-  .animatedCount {
-    display: flex;
-    gap: 0.05em;
-    font-variant-numeric: tabular-nums;
-  }
-  
-  .digit {
-    display: inline-block;
-    animation: slideUpBounce 0.6s ease-out;
-  }
-  
-  @keyframes slideUpBounce {
-    0% {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    60% {
-      transform: translateY(-15%);
-    }
-    100% {
-      transform: translateY(0%);
-      opacity: 1;
-    }
-  }
+.animatedCount {
+  display: flex;
+  gap: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
 
-  
+.digit {
+  display: inline-block;
+  animation: slideUpBounce 0.6s ease-out;
+}
+
+@keyframes slideUpBounce {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-15%);
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}

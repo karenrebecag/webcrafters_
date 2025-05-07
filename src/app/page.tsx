@@ -6,6 +6,7 @@ import HomeBanner from '@/components/Home/hero/HomeBanner';
 import WhiteSection from '@/components/Home/whiteSection/WhiteSection';
 import Header from '@/components/Global/header/Header';
 import Loader from '@/components/Global/loader/Loader';
+import Footer from '@/components/Global/footer/Footer';
 
 export default function HomePage() {
   const [isLoaderFinished, setIsLoaderFinished] = useState(false);
@@ -36,6 +37,7 @@ export default function HomePage() {
         <HomeBanner />
         <Info />
         <WhiteSection />
+        <Footer/>
       </main>
     </>
   );
