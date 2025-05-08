@@ -1,13 +1,143 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from 'gsap/SplitText';
 import Services from './Services';
 import SlideShow from './SlideShow/SlideShow';
+import './whiteSection.css';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const WhiteSection: React.FC = () => {
+  const colTitleRef = useRef<HTMLDivElement>(null);
+  const subheadingRef = useRef<HTMLParagraphElement>(null);
+  const handWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.fonts.ready.then(() => {
+      if (colTitleRef.current) {
+        // Ensure the heading container is visible
+        gsap.set(colTitleRef.current, { opacity: 1 });
+
+        // SplitText animation for the heading
+        const headingElement = colTitleRef.current.querySelector('.SplitText');
+        if (headingElement) {
+          const split = new SplitText(headingElement, {
+            type: 'words',
+            wordsClass: 'word word++',
+            ignore: 'sup', // Ignore <sup> elements
+          });
+
+          gsap.fromTo(
+            split.words,
+            { y: -100, opacity: 0, rotation: 'random(-20, 20)' },
+            {
+              y: 0,
+              opacity: 1,
+              rotation: 0,
+              duration: 1,
+              stagger: 0.1,
+              ease: 'back',
+              scrollTrigger: {
+                trigger: colTitleRef.current,
+                start: 'top 80%',
+                toggleActions: 'play none none none',
+              },
+            }
+          );
+        }
+
+        // Red dot animation
+        gsap.fromTo(
+          colTitleRef.current.querySelector('.RedDot'),
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.5,
+            ease: 'back.out(1.7)',
+            scrollTrigger: {
+              trigger: colTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+    });
+
+    if (subheadingRef.current) {
+      // Mask reveal effect for the subheading
+      gsap.fromTo(
+        subheadingRef.current,
+        { clipPath: 'inset(0 100% 0 0)' },
+        {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: subheadingRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+
+      // Parallax effect for the subheading
+      gsap.to(subheadingRef.current, {
+        y: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: subheadingRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5,
+        },
+      });
+    }
+
+    if (handWrapperRef.current) {
+      // Animate hand-wrapper height similar to SplitText animation
+      gsap.fromTo(
+        handWrapperRef.current,
+        { height: '300px' }, // Min height
+        {
+          height: '600px', // Max height
+          duration: 1,
+          ease: 'back',
+          scrollTrigger: {
+            trigger: handWrapperRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+
+    // Cleanup on unmount
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
     <section className="WhiteSection">
-      <div className="hand-wrapper">
+      <div className="noise-layer" />
+      <div className="heading-container">
+        <div className="ColTitle" ref={colTitleRef}>
+          <span className="RedDot">• </span>
+          <span className="SplitText">
+            Smart Digital Services<sup></sup>
+          </span>
+        </div>
+        <p className="subheading" ref={subheadingRef}>
+          Explore a full suite of tailored solutions—from immersive 3D visuals and powerful AI tools to seamless product design and app development. At WebCrafters, we craft technology with purpose, beauty, and intelligence.
+        </p>
+      </div>
+      <div className="hand-wrapper" ref={handWrapperRef}>
         <SlideShow
           productDesign={{
             title: 'Product Design',
@@ -69,10 +199,10 @@ const WhiteSection: React.FC = () => {
               'We optimize and maintain digital products through SEO, performance audits, analytics, and marketing automation. Whether it’s a web app, e-commerce site, AI assistant or 3D experience, we ensure it reaches the right users, loads fast, ranks high, and evolves smartly.',
             services: [
               'SEO Architecture & Semantic Structuring',
+              'Core Ascendancy SEO',
               'Core Web Vitals & Performance Optimization',
               'CRM, Analytics & Conversion Tracking Setup',
               'Content Strategy & AI-Assisted SEO',
-              'CRM, Analytics & Conversion Tracking Setup',
               'Marketing Automation & Retargeting Strategy',
             ],
           }}

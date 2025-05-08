@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import TopButton from '../../../Global/buttons/TopButton';
 import BlackButton from '../../../Global/buttons/BlackButton';
@@ -201,7 +203,6 @@ const Slideshow: React.FC<SlideshowProps> = ({
       <div className="WhiteContainer">
         <div className="GeneralContainer">
           <div className="slideshow-background" />
-          <div className="slideshow-noise" />
           <div className="slideshow-container">
             <p>Loading images...</p>
           </div>
@@ -214,7 +215,6 @@ const Slideshow: React.FC<SlideshowProps> = ({
     <div className="WhiteContainer">
       <div className="GeneralContainer">
         <div className="slideshow-background" />
-        <div className="slideshow-noise" />
         <div ref={slideshowRef} className="slideshow-container">
           {/* Navigation Buttons */}
           <div className="slideshow-nav">

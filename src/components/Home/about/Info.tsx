@@ -132,10 +132,7 @@ export default function AboutIntro() {
       <div className="MainContainer">
         <div className="MainInfoContainer">
           <div className="TextSubContainer">
-            <div className="ColTitle" ref={colTitleRef}>
-              <span className="RedDot">• </span>
-              <span className="MiniText">About Us</span>
-            </div>
+
             <span className="HeadingWhite" ref={headingWhiteRef}>
               Crafting the future,{' '}
             </span>

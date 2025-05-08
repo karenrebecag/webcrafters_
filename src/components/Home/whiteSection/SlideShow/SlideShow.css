@@ -89,7 +89,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     margin-top: 10em;
   }
   
@@ -126,7 +126,7 @@
   /* Container for the text content */
   .slideshow-text {
     width: 100%;
-    padding: 2rem;
+    padding: 0px 2rem;
   }
   
   /* Media query for larger screens (md:w-1/2) */

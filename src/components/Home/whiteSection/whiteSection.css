@@ -1,0 +1,122 @@
+.WhiteSection {
+    background-color: #f7f7f7;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Allow noise-layer positioning */
+  }
+  
+  .noise-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/NoiseBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 0; /* Behind content */
+  }
+  
+  .heading-container {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .ColTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    opacity: 1 !important;
+    position: relative;
+    width: 90vw;
+    flex-direction: row;
+    border-radius: 9px;
+  }
+  
+  .SplitText {
+        font-family: var(--secondary-font);
+        font-weight: var(--medium);
+        font-size: var(--macro-heading);
+        color: var(--white);
+        line-height: 90px;
+        display: flex;
+        text-align: start;
+    
+      }
+  
+  .word {
+    display: inline-block;
+    background-image: linear-gradient(45deg, #bb8686, #9f2323);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    border-radius: 10px;
+    margin: 0.25rem;
+    height: 100px;
+    overflow: hidden;
+  }
+  
+  sup {
+    line-height: 0;
+  }
+  
+  .text-container {
+    position: relative;
+  }
+  
+  .text-container p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    font-family: var(--main-font);
+    font-size: 3rem;
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .text-container p:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #000;
+    -webkit-text-stroke-width: 0;
+    z-index: 2;
+  }
+  
+  .subheading {
+    font-family: var(--main-font);
+    font-size: 1.25rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+    max-width: 800px;
+    line-height: 1.6;
+    clip-path: inset(0 100% 0 0);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hand-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
