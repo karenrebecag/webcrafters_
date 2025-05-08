@@ -1,0 +1,48 @@
+.BlackButton {
+    display: inline-flex;          
+    align-items: center;          
+    justify-content: center;        
+    gap: 10px;                     
+  
+    margin-top: 20px;
+    background-color: var(--black);
+    border-radius: 40px;
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    font-size: var(--paragraph);
+    color: var(--white);
+    box-shadow: var(--button-shadow);
+    border: none;
+    padding: 5px 20px;
+    min-width: 173px;
+    min-height: 64px;
+    transition: all 0.3s ease-in-out;
+    
+}
+
+
+.BlackButtonIcon{
+    transition: transform 0.2s ease;
+    height: 22px;
+    width: 22px;
+    filter: brightness(0) saturate(100%) invert(23%) sepia(100%) saturate(7473%) hue-rotate(0deg) brightness(101%) contrast(113%);
+}
+  
+  .BlackButton:hover .BlackButtonIcon {
+      transform:translateX(2)translateY(-2);
+      filter: invert(100%) brightness(100%);
+  } 
+
+.BlackButton:hover {
+    background-color: var(--red);
+    font-family: var(--main-font);
+    font-weight: var(--medium);
+    color: var(--white);
+    padding: 5px 30px;
+    cursor: pointer;
+}
+
+.BlackButton:hover img{
+    filter: brightness(100) ;
+}
+

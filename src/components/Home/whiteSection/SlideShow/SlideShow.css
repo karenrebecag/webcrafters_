@@ -1,0 +1,215 @@
+.WhiteContainer {
+    background-color: #F4F4F4;
+    padding: 100px;
+  }
+  
+  .GeneralContainer {
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    min-height: auto;
+    min-height: 500px;
+    padding: 40px 0px;
+  }
+  
+  .slideshow-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 1;
+  }
+  
+  .slideshow-noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://pub-2e7dc04d482146c59f472ab28fba09a9.r2.dev/NoiseBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 2;
+  }
+  
+  .slideshow-container {
+    position: relative;
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+  
+  .slideshow-nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+  
+  .slideshow-nav button {
+    font-family: var(--main-font);
+    font-size: var(--paragraph);
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .slideshow-indicator {
+    position: absolute;
+    margin-top: 60px;
+    top: 60px;
+    padding-left: 10px;
+    height: 4px;
+    background: linear-gradient(
+      to right,
+      rgba(239, 68, 68, 0),
+      rgba(239, 68, 68, 1),
+      rgba(236, 72, 153, 1),
+      rgba(236, 72, 153, 0)
+    );
+    transition: all 0.3s ease;
+  }
+  
+  .slideshow-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 10em;
+  }
+  
+  @media (min-width: 768px) {
+    .slideshow-content {
+      flex-direction: row;
+    }
+  }
+  
+  .slideshow-shape {
+    width: 100%;
+    height: 269.2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Media query for larger screens (md:w-1/2) */
+  @media (min-width: 768px) {
+    .slideshow-shape {
+      width: 50%;
+    }
+  }
+  
+  /* Static image styling */
+  .slideshow-shape-image {
+    max-width: 130%; /* Increased by 30% */
+    max-height: 130%; /* Increased by 30% */
+    object-fit: contain;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Container for the text content */
+  .slideshow-text {
+    width: 100%;
+    padding: 2rem;
+  }
+  
+  /* Media query for larger screens (md:w-1/2) */
+  @media (min-width: 768px) {
+    .slideshow-text {
+      width: 50%;
+    }
+  }
+  
+  /* Title styling */
+  .slideshow-title {
+    font-family: var(--main-font);
+    font-size: var(--heading);
+    background: linear-gradient(to right, #AD0F17, #B55E62);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 70px;
+  }
+  
+  /* Description styling */
+  .slideshow-description {
+    font-family: var(--main-font);
+    font-size: var(--paragraph);
+    white-space: pre-line;
+  }
+  
+  /* Marquee container */
+  .marquee-container {
+    margin-top: 1.5rem;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  /* Gradient overlays on the sides */
+  .marquee-container::before,
+  .marquee-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .marquee-container::before {
+    left: 0;
+    background: linear-gradient(to right, #fcfcfc, transparent);
+  }
+  
+  .marquee-container::after {
+    right: 0;
+    background: linear-gradient(to left, #fcfcfc, transparent);
+  }
+  
+  /* Marquee content (contains duplicated items for infinite loop) */
+  .marquee-content {
+    display: inline-flex;
+    animation: marquee 30.5s linear infinite;
+  }
+  
+  /* Marquee item styling */
+  .marquee-item {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-family: var(--main-font);
+    padding: 0 2rem;
+  }
+  
+  /* Red bullet divider */
+  .marquee-divider {
+    color: #ef4444;
+    font-size: 0.875rem;
+    padding: 0 1rem;
+  }
+  
+  /* Keyframes for the marquee animation */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
