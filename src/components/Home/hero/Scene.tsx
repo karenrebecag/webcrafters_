@@ -253,7 +253,6 @@ const Scene: React.FC = () => {
     <div style={{ position: 'relative', width: '100vw', height: '80vh' }}>
       <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-        <Image src="/assets/backgrounds/NoiseOverlay.png" alt="" fill style={{ objectFit: 'cover', opacity: 0.02 }} />
       </div>
     </div>
   );

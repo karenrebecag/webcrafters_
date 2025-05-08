@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
-import Services from './Services';
+import AreasOfExpertise from './AreasofExpertice';
 import SlideShow from './SlideShow/SlideShow';
 import './whiteSection.css';
 
@@ -103,9 +103,9 @@ const WhiteSection: React.FC = () => {
       // Animate hand-wrapper height similar to SplitText animation
       gsap.fromTo(
         handWrapperRef.current,
-        { height: '300px' }, // Min height
+        { height: '20vh' }, // Min height
         {
-          height: '600px', // Max height
+          height: '50vh', // Max height
           duration: 1,
           ease: 'back',
           scrollTrigger: {
@@ -208,7 +208,7 @@ const WhiteSection: React.FC = () => {
           }}
         />
       </div>
-      <Services />
+      <AreasOfExpertise />
     </section>
   );
 };

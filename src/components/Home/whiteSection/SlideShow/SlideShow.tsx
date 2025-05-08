@@ -133,28 +133,6 @@ const Slideshow: React.FC<SlideshowProps> = ({
     }
   }, [activeSlide, imagesLoaded]);
 
-  const handleShapeHover = () => {
-    if (shapeRef.current) {
-      gsap.to(shapeRef.current, {
-        scale: 1.05,
-        rotation: 5,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    }
-  };
-
-  const handleShapeLeave = () => {
-    if (shapeRef.current) {
-      gsap.to(shapeRef.current, {
-        scale: 1,
-        rotation: 0,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    }
-  };
-
   // Scroll-based fade-up animation
   useEffect(() => {
     if (imagesLoaded && slideshowRef.current) {
@@ -242,8 +220,7 @@ const Slideshow: React.FC<SlideshowProps> = ({
                 src={image}
                 alt={`${content.title} shape`}
                 className="slideshow-shape-image"
-                onMouseEnter={handleShapeHover}
-                onMouseLeave={handleShapeLeave}
+                draggable={false}
               />
             </div>
 
